@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QUOTES</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
+  <style>
+    .bolder-shadow {
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .text-shadow {
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #fff5f5 0%, #fdf2f8 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+    }
+    .font-arabic {
+      font-family: 'Amiri', serif;
+      line-height: 1.8;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    .font-english {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: normal;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .font-romantic {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .fade {
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .tiny-box {
+      width: 52px;
+      height: 25px;
+      margin: 3px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 3px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .tiny-box:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .boxes-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 1rem 0;
+      max-height: 100vh;
+      overflow: hidden;
+    }
+    .box-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .buttons-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.8rem;
+      width: 100%;
+      margin: 0 auto 1.5rem auto;
+    }
+    .emotion-btn {
+      transition: all 0.3s ease;
+      transform: translateY(0);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      white-space: nowrap;
+      padding: 0.5rem 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .heart-float {
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+    .sparkle {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: sparkle 1.5s ease-out forwards;
+    }
+    @keyframes sparkle {
+      0% { transform: scale(0); opacity: 1; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .modal-content {
+      width: 90%;
+      max-width: 400px;
+      max-height: 80vh;
+      overflow: auto;
+      padding: 15px;
+      margin: 10px;
+      position: relative;
+    }
+    
+    .nav-btn {
+      padding: 0.5rem 0.8rem;
+      border-radius: 6px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      min-width: 100px;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+
+    #hadithText {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    #hadithSource {
+      font-size: 0.85rem;
+      color: #ec4899;
+      font-style: italic;
+      text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 182, 193, 0.1);
+      padding: 4px 10px;
+      border-radius: 5px;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #9c9c9c;
+      transition: color 0.2s ease;
+    }
+
+    .close-btn:hover {
+      color: #6b6b6b;
+    }
+
+    .title-happy {
+      background: linear-gradient(to right, #f97316, #fb923c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .title-sad {
+      background: linear-gradient(to right, #60a5fa, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .title-anxious {
+      background: linear-gradient(to right, #9ca3af, #4b5563);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .title-grateful {
+      background: linear-gradient(to right, #4ade80, #22c55e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .title-angry {
+      background: linear-gradient(to right, #f87171, #ef4444);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .title-lonely {
+      background: linear-gradient(to right, #a78bfa, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    @media (max-width: 480px) {
+      .modal-content {
+        padding: 12px;
+      }
+      #emotionTitle {
+        font-size: 1.1rem;
+      }
+      .nav-btn {
+        padding: 0.5rem;
+        min-width: 80px;
+      }
+      .buttons-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden">
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="heart-float absolute text-pink-200 text-3xl top-1/4 left-1/6" style="animation-delay: 0s;">❤</div>
+    <div class="heart-float absolute text-pink-200 text-2xl top-1/3 right-1/5" style="animation-delay: 1s;">❤</div>
+    <div class="heart-float absolute text-pink-200 text-xl top-2/3 left-1/4" style="animation-delay: 2s;">❤</div>
+    <div class="heart-float absolute text-pink-200 text-2xl bottom-1/4 right-1/6" style="animation-delay: 3s;">❤</div>
+  </div>
+
+  <div class="container mx-auto px-4 py-6 max-w-md relative z-10" style="height: 100vh; overflow: hidden;">
+    <div class="text-center mb-6 fade">
+      <div class="inline-block transform rotate-6 mb-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-pink-400" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 4.419c-2.826-5.695-11.999-4.064-11.999 3.27 0 7.27 9.903 10.938 11.999 15.311 2.096-4.373 12-8.041 12-15.311 0-7.327-9.17-8.972-12-3.27z"/>
+        </svg>
+      </div>
+      <h1 class="text-3xl font-bold text-rose-700 font-serif mb-2 tracking-wide">
+        A GIFT OF LOVE</h1>
+      <h2 class="text-xl font-bold text-rose-700 font-serif mb-2 tracking-wide">
+        for your heart..</h2>
+      <p class="text-sm text-gray-600 font-english italic mb-4">
+        Come to me whenever your heart needs a voice of comfort
+      </p>
+    </div>
+    
+    <div id="emotionButtons" class="buttons-container fade">
+      <button class="emotion-btn bg-gradient-to-r from-orange-300 to-orange-400 text-white rounded-lg">
+        Happy
+      </button>
+      <button class="emotion-btn bg-gradient-to-r from-blue-300 to-blue-400 text-white rounded-lg">
+        Sad
+      </button>
+      <button class="emotion-btn bg-gradient-to-r from-gray-400 to-gray-500 text-white rounded-lg">
+        Anxious
+      </button>
+      <button class="emotion-btn bg-gradient-to-r from-green-300 to-green-400 text-white rounded-lg">
+        Grateful
+      </button>
+      <button class="emotion-btn bg-gradient-to-r from-red-300 to-red-400 text-white rounded-lg">
+        Angry
+      </button>
+      <button class="emotion-btn bg-gradient-to-r from-purple-400 to-purple-500 text-white rounded-lg">
+        Lonely
+      </button>
+    </div>
+ 
+	<h2 class="text-xl font-bold text-rose-700 font-serif mb-2 tracking-wide text-center">
+        Click Me When You Feel :</h2>
+		
+    <div class="boxes-container">
+      <div class="box-column">
+        <div class="tiny-box bg-gradient-to-r from-orange-300 to-orange-400" onclick="showModal('happy', 0)"></div>
+        <div class="tiny-box bg-gradient-to-r from-orange-300 to-orange-400" onclick="showModal('happy', 1)"></div>
+        <div class="tiny-box bg-gradient-to-r from-orange-300 to-orange-400" onclick="showModal('happy', 2)"></div>
+        <div class="tiny-box bg-gradient-to-r from-orange-300 to-orange-400" onclick="showModal('happy', 3)"></div>
+        <div class="tiny-box bg-gradient-to-r from-orange-300 to-orange-400" onclick="showModal('happy', 4)"></div>
+        <div class="tiny-box bg-gradient-to-r from-orange-300 to-orange-400" onclick="showModal('happy', 5)"></div>
+        <div class="tiny-box bg-gradient-to-r from-orange-300 to-orange-400" onclick="showModal('happy', 6)"></div>
+        <div class="tiny-box bg-gradient-to-r from-orange-300 to-orange-400" onclick="showModal('happy', 7)"></div>
+        <div class="tiny-box bg-gradient-to-r from-orange-300 to-orange-400" onclick="showModal('happy', 8)"></div>
+        <div class="tiny-box bg-gradient-to-r from-orange-300 to-orange-400" onclick="showModal('happy', 9)"></div>
+      </div>
+      
+      <div class="box-column">
+        <div class="tiny-box bg-gradient-to-r from-blue-300 to-blue-400" onclick="showModal('sad', 0)"></div>
+        <div class="tiny-box bg-gradient-to-r from-blue-300 to-blue-400" onclick="showModal('sad', 1)"></div>
+        <div class="tiny-box bg-gradient-to-r from-blue-300 to-blue-400" onclick="showModal('sad', 2)"></div>
+        <div class="tiny-box bg-gradient-to-r from-blue-300 to-blue-400" onclick="showModal('sad', 3)"></div>
+        <div class="tiny-box bg-gradient-to-r from-blue-300 to-blue-400" onclick="showModal('sad', 4)"></div>
+        <div class="tiny-box bg-gradient-to-r from-blue-300 to-blue-400" onclick="showModal('sad', 5)"></div>
+        <div class="tiny-box bg-gradient-to-r from-blue-300 to-blue-400" onclick="showModal('sad', 6)"></div>
+        <div class="tiny-box bg-gradient-to-r from-blue-300 to-blue-400" onclick="showModal('sad', 7)"></div>
+        <div class="tiny-box bg-gradient-to-r from-blue-300 to-blue-400" onclick="showModal('sad', 8)"></div>
+        <div class="tiny-box bg-gradient-to-r from-blue-300 to-blue-400" onclick="showModal('sad', 9)"></div>
+      </div>
+      
+      <div class="box-column">
+        <div class="tiny-box bg-gradient-to-r from-gray-400 to-gray-500" onclick="showModal('anxious', 0)"></div>
+        <div class="tiny-box bg-gradient-to-r from-gray-400 to-gray-500" onclick="showModal('anxious', 1)"></div>
+        <div class="tiny-box bg-gradient-to-r from-gray-400 to-gray-500" onclick="showModal('anxious', 2)"></div>
+        <div class="tiny-box bg-gradient-to-r from-gray-400 to-gray-500" onclick="showModal('anxious', 3)"></div>
+        <div class="tiny-box bg-gradient-to-r from-gray-400 to-gray-500" onclick="showModal('anxious', 4)"></div>
+        <div class="tiny-box bg-gradient-to-r from-gray-400 to-gray-500" onclick="showModal('anxious', 5)"></div>
+        <div class="tiny-box bg-gradient-to-r from-gray-400 to-gray-500" onclick="showModal('anxious', 6)"></div>
+        <div class="tiny-box bg-gradient-to-r from-gray-400 to-gray-500" onclick="showModal('anxious', 7)"></div>
+        <div class="tiny-box bg-gradient-to-r from-gray-400 to-gray-500" onclick="showModal('anxious', 8)"></div>
+        <div class="tiny-box bg-gradient-to-r from-gray-400 to-gray-500" onclick="showModal('anxious', 9)"></div>
+      </div>
+      
+      <div class="box-column">
+        <div class="tiny-box bg-gradient-to-r from-green-300 to-green-400" onclick="showModal('grateful', 0)"></div>
+        <div class="tiny-box bg-gradient-to-r from-green-300 to-green-400" onclick="showModal('grateful', 1)"></div>
+        <div class="tiny-box bg-gradient-to-r from-green-300 to-green-400" onclick="showModal('grateful', 2)"></div>
+        <div class="tiny-box bg-gradient-to-r from-green-300 to-green-400" onclick="showModal('grateful', 3)"></div>
+        <div class="tiny-box bg-gradient-to-r from-green-300 to-green-400" onclick="showModal('grateful', 4)"></div>
+        <div class="tiny-box bg-gradient-to-r from-green-300 to-green-400" onclick="showModal('grateful', 5)"></div>
+        <div class="tiny-box bg-gradient-to-r from-green-300 to-green-400" onclick="showModal('grateful', 6)"></div>
+        <div class="tiny-box bg-gradient-to-r from-green-300 to-green-400" onclick="showModal('grateful', 7)"></div>
+        <div class="tiny-box bg-gradient-to-r from-green-300 to-green-400" onclick="showModal('grateful', 8)"></div>
+        <div class="tiny-box bg-gradient-to-r from-green-300 to-green-400" onclick="showModal('grateful', 9)"></div>
+      </div>
+      
+      <div class="box-column">
+        <div class="tiny-box bg-gradient-to-r from-red-300 to-red-400" onclick="showModal('angry', 0)"></div>
+        <div class="tiny-box bg-gradient-to-r from-red-300 to-red-400" onclick="showModal('angry', 1)"></div>
+        <div class="tiny-box bg-gradient-to-r from-red-300 to-red-400" onclick="showModal('angry', 2)"></div>
+        <div class="tiny-box bg-gradient-to-r from-red-300 to-red-400" onclick="showModal('angry', 3)"></div>
+        <div class="tiny-box bg-gradient-to-r from-red-300 to-red-400" onclick="showModal('angry', 4)"></div>
+        <div class="tiny-box bg-gradient-to-r from-red-300 to-red-400" onclick="showModal('angry', 5)"></div>
+        <div class="tiny-box bg-gradient-to-r from-red-300 to-red-400" onclick="showModal('angry', 6)"></div>
+        <div class="tiny-box bg-gradient-to-r from-red-300 to-red-400" onclick="showModal('angry', 7)"></div>
+        <div class="tiny-box bg-gradient-to-r from-red-300 to-red-400" onclick="showModal('angry', 8)"></div>
+        <div class="tiny-box bg-gradient-to-r from-red-300 to-red-400" onclick="showModal('angry', 9)"></div>
+      </div>
+      
+      <div class="box-column">
+        <div class="tiny-box bg-gradient-to-r from-purple-400 to-purple-500" onclick="showModal('lonely', 0)"></div>
+        <div class="tiny-box bg-gradient-to-r from-purple-400 to-purple-500" onclick="showModal('lonely', 1)"></div>
+        <div class="tiny-box bg-gradient-to-r from-purple-400 to-purple-500" onclick="showModal('lonely', 2)"></div>
+        <div class="tiny-box bg-gradient-to-r from-purple-400 to-purple-500" onclick="showModal('lonely', 3)"></div>
+        <div class="tiny-box bg-gradient-to-r from-purple-400 to-purple-500" onclick="showModal('lonely', 4)"></div>
+        <div class="tiny-box bg-gradient-to-r from-purple-400 to-purple-500" onclick="showModal('lonely', 5)"></div>
+        <div class="tiny-box bg-gradient-to-r from-purple-400 to-purple-500" onclick="showModal('lonely', 6)"></div>
+        <div class="tiny-box bg-gradient-to-r from-purple-400 to-purple-500" onclick="showModal('lonely', 7)"></div>
+        <div class="tiny-box bg-gradient-to-r from-purple-400 to-purple-500" onclick="showModal('lonely', 8)"></div>
+        <div class="tiny-box bg-gradient-to-r from-purple-400 to-purple-500" onclick="showModal('lonely', 9)"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="hadithModal" class="modal">
+    <div class="modal-content glass-card rounded-xl p-4 fade">
+      <button class="close-btn" onclick="closeModal()">x</button>
+      <div id="colorBar" class="h-1 w-full rounded-full mb-4 bg-gradient-to-r from-pink-400 to-pink-600"></div>
+      <h3 id="emotionTitle" class="text-lg font-bold mb-3 text-center font-romantic"></h3>
+      <div class="relative">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-300 absolute -top-3 -left-3" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+        </svg>
+        <div id="hadithText" class="text-sm text-gray-800 mb-4 px-3">
+          <p id="arabicText" class="font-arabic text-center"></p>
+          <p id="englishText" class="font-english text-center"></p>
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-300 absolute -bottom-3 -right-3 transform rotate-180" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+        </svg>
+      </div>
+      <div class="text-center">
+        <p id="hadithSource" class="mt-3"></p>
+      </div>
+      
+      <div id="quoteCounter" class="text-center text-gray-500 text-xs mt-1"></div>
+    </div>
+  </div>
+
+<script>
+    const hadithData = {
+  happy: [
+    {
+      color: "from-orange-300 to-orange-500",
+      title: "When you feel HAPPY",
+      arabic: "قَدْ أَفْلَحَ مَنْ زَكَّاهَا",
+      english: "He has succeeded who purifies his soul.",
+      source: "Quran 91:9"
+    },
+    {
+      color: "from-orange-300 to-orange-500",
+      title: "When you feel HAPPY",
+      arabic: "وَأَحْسِنُوا إِنَّ اللَّهَ يُحِبُّ الْمُحْسِنِينَ",
+      english: "And do good, indeed Allah loves the doers of good.",
+      source: "Quran 2:195"
+    },
+    {
+      color: "from-orange-300 to-orange-500",
+      title: "When you feel HAPPY",
+      arabic: "وَتَوَكَّلْ عَلَى اللَّهِ ۚ إِنَّ اللَّهَ يُحِبُّ الْمُتَوَكِّلِينَ",
+      english: "And put your trust in Allah; and sufficient is Allah as Disposer of affairs.",
+      source: "Quran 3:159"
+    },
+    {
+      color: "from-orange-300 to-orange-500",
+      title: "When you feel HAPPY",
+      arabic: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
+      english: "Verily, in the remembrance of Allah do hearts find rest.",
+      source: "Quran 13:28"
+    },
+    {
+      color: "from-orange-300 to-orange-500",
+      title: "When you feel HAPPY",
+      arabic: "وَالَّذِينَ جَاهَدُوا فِينَا لَنَهْدِيَنَّهُمْ سُبُلَنَا ۚ وَإِنَّ اللَّهَ لَمَعَ الْمُحْسِنِينَ",
+      english: "And those who strive for Us, We will surely guide them to Our ways. And indeed, Allah is with the doers of good.",
+      source: "Quran 29:69"
+    },
+    {
+      color: "from-orange-300 to-orange-500",
+      title: "When you feel HAPPY",
+      arabic: "فمن يعمل مثقال ذرة خيرا يره",
+      english: "So whoever does an atom's weight of good will see it.",
+      source: "Quran 99:7"
+    },
+    {
+      color: "from-orange-300 to-orange-500",
+      title: "When you feel HAPPY",
+      arabic: "هناك سلام في معرفة أن لا شيء يحدث دون إذن الله",
+      english: "There is peace in knowing that nothing happens without Allah's permission.",
+      source: "Quran 6:115"
+    },
+    {
+      color: "from-orange-300 to-orange-500",
+      title: "When you feel HAPPY",
+      arabic: "مَنْ سَرَّ مُؤْمِنًا سَرَّهُ اللَّهُ يَوْمَ الْقِيَامَةِ",
+      english: "Whoever brings joy to a believer, Allah will delight him on Judgment Day.",
+      source: "Sunan Ibn Majah 225"
+    },
+    {
+  color: "from-orange-300 to-orange-500",
+  title: "When you feel HAPPY",
+  arabic: "وَتَمَّتْ كَلِمَتُ رَبِّكَ صِدْقًا وَعَدْلًا",
+  english: "And the word of your Lord has been fulfilled in truth and justice.",
+  source: "Quran 6:116"
+},
+    {
+      color: "from-orange-300 to-orange-500",
+      title: "When you feel HAPPY",
+      arabic: "كُنْ وَرِعًا تَكُنْ أَعْبَدَ النَّاسِ، وَكُنْ قَنِعًا تَكُنْ أَشْكَرَ النَّاسِ",
+      english: "Be content with what Allah has given you, and you will be the richest of people.",
+      source: "Sunan At-Tirmidhi 2348"
+    }
+  ],
+  sad: [
+    {
+      color: "from-blue-300 to-blue-500",
+      title: "When you feel SAD",
+      arabic: "لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ",
+      english: "Do not despair of Allah's mercy.",
+      source: "Quran 39:53"
+    },
+    {
+	
+	  color: "from-blue-300 to-blue-500",
+      title: "When you feel SAD",
+      arabic: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا",
+      english: "Verily, with every difficulty there is relief.",
+      source: "Quran 94:5"
+      
+    },
+    {
+      color: "from-blue-300 to-blue-500",
+      title: "When you feel SAD",
+      arabic: "وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ ۚ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ",
+      english: "And seek help through patience and prayer. Indeed, Allah is with the patient.",
+      source: "Quran 2:153"
+	  
+    },
+    {
+      color: "from-blue-300 to-blue-500",
+      title: "When you feel SAD",
+      arabic: "مَا يُصِيبُ الْمُسْلِمَ مِنْ نَصَبٍ إِلَّا كَفَّرَ اللَّهُ بِهِ عَنْهُ سَيِّئَاتِهِ",
+      english: "No fatigue befalls a believer except that Allah forgives sins because of it.",
+      source: "Sahih Bukhari 5641"
+    },
+    {
+      color: "from-blue-300 to-blue-500",
+      title: "When you feel SAD",
+      arabic: "سَيَجْعَلُ اللَّهُ بَعْدَ عُسْرٍ يُسْرًا",
+      english: "After hardship, Allah will bring ease.",
+      source: "Quran 65:7"
+	  
+    },
+    {
+      color: "from-blue-300 to-blue-500",
+      title: "When you feel SAD",
+      arabic: "إِنَّ اللَّهَ مَعَ الَّذِينَ اتَّقَوْا وَالَّذِينَ هُمْ مُحْسِنُونَ",
+      english: "Indeed, Allah is with those who fear Him and those who do good.",
+      source: "Quran 16:128"
+    },
+    {
+      color: "from-blue-300 to-blue-500",
+      title: "When you feel SAD",
+      arabic: "إِنَّ رَبِّي قَرِيبٌ مُجِيبٌ",
+      english: "Indeed, my Lord is near and responsive.",
+      source: "Quran 11:61"
+    },
+    {
+      color: "from-blue-300 to-blue-500",
+      title: "When you feel SAD",
+      arabic: "إِنَّمَا يُوَفَّى الصَّابِرُونَ أَجْرَهُمْ بِغَيْرِ حِسَابٍ",
+      english: "Indeed, the patient will be given their reward beyond measure.",
+      source: "Quran 39:10"
+    },
+    {
+      color: "from-blue-300 to-blue-500",
+      title: "When you feel SAD",
+      arabic: "وَهُوَ الَّذِي يَعْلَمُ مَا تُخْفِي الصُّدُورُ",
+      english: "And He knows what is within the hearts.",
+      source: "Quran 40:19"
+    },
+    {
+      color: "from-blue-300 to-blue-500",
+      title: "When you feel SAD",
+      arabic: "إِنَّ اللَّهَ يَسْمَعُ دُعَاءَ الْحَزِينِ",
+      english: "Allah never ignores the prayer of a grieving heart.",
+      source: "Musnad Ahmad 3712"
+    }
+  ],
+  anxious: [
+    {
+      color: "from-gray-400 to-gray-600",
+      title: "When you feel ANXIOUS",
+      arabic: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
+      english: "Whoever relies on Allah, He is enough for them.",
+      source: "Quran 65:3"
+    },
+    {
+      color: "from-gray-400 to-gray-600",
+      title: "When you feel ANXIOUS",
+      arabic: "لا تحمل هم المستقبل فهو بيد الله",
+      english: "Do not carry the anxiety for the future because it is in the hands of Allah.",
+      source: "Quran 12:86"
+    },
+    {
+      color: "from-gray-400 to-gray-600",
+      title: "When you feel ANXIOUS",
+      arabic: "يُرِيدُ اللَّهُ بِكُمُ الْيُسْرَ وَلَا يُرِيدُ بِكُمُ الْعُسْرَ",
+      english: "Allah intends for you ease and does not intend for you hardship.",
+      source: "Quran 2:185"
+    },
+    {
+  color: "from-gray-400 to-gray-600",
+  title: "When you feel ANXIOUS",
+  arabic: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
+  english: "Allah does not burden a soul beyond its capacity.",
+  source: "Quran 2:286"
+},
+    {
+      color: "from-gray-400 to-gray-600",
+      title: "When you feel ANXIOUS",
+      arabic: "مَا أَصَابَ مِنْ مُصِيبَةٍ إِلَّا بِإِذْنِ اللَّهِ ۗ وَمَنْ يُؤْمِنْ بِاللَّهِ يَهْدِ قَلْبَهُ",
+      english: "No disaster strikes except by permission of Allah. And whoever believes in Allah, He will guide his heart.",
+      source: "Quran 64:11"
+    },
+    {
+      color: "from-gray-400 to-gray-600",
+      title: "When you feel ANXIOUS",
+      arabic: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ",
+      english: "Allah is enough for me. There is no god but Him.",
+      source: "Quran 9:129"
+    },
+    {
+      color: "from-gray-400 to-gray-600",
+      title: "When you feel ANXIOUS",
+      arabic: "وَاللَّهُ خَيْرُ الْمَاكِرِينَ",
+      english: "And Allah is the best of planners.",
+      source: "Quran 3:54"
+    },
+    {
+      color: "from-gray-400 to-gray-600",
+      title: "When you feel ANXIOUS",
+      arabic: "فَاذْكُرُونِي أَذْكُرْكُمْ",
+      english: "So remember Me, I will remember you.",
+      source: "Quran 2:152"
+    },
+    {
+      color: "from-gray-400 to-gray-600",
+      title: "When you feel ANXIOUS",
+      arabic: "وَتَوَكَّلْ عَلَى اللَّهِ ۚ إِنَّ اللَّهَ يُحِبُّ الْمُتَوَكِّلِينَ",
+      english: "Put your trust in Allah, for Allah loves those who place their trust in Him.",
+      source: "Quran 3:159"
+    },
+    {
+      color: "from-gray-400 to-gray-600",
+      title: "When you feel ANXIOUS",
+      arabic: "وَتَوَكَّلْ عَلَى اللَّهِ ۚ وَكَفَىٰ بِاللَّهِ وَكِيلًا",
+      english: "And rely upon Allah, and sufficient is Allah as disposer of affairs.",
+      source: "Quran 33:3"
+    }
+  ],
+  grateful: [
+    {
+      color: "from-green-300 to-green-500",
+      title: "When you feel GRATEFUL",
+      arabic: "لَئِنْ شَكَرْتُمْ لَأَزِيدَنَّكُمْ",
+      english: "If you are grateful, I will surely give you more.",
+      source: "Quran 14:7"
+    },
+    {
+      color: "from-green-300 to-green-500",
+      title: "When you feel GRATEFUL",
+      arabic: "فبأي آلاء ربكما تكذبان",
+      english: "So which of the favours of your Lord will you deny?",
+      source: "Quran 55:13"
+    },
+    {
+      color: "from-green-300 to-green-500",
+      title: "When you feel GRATEFUL",
+      arabic: "اُنْظُرُوا إِلَى مَنْ هُوَ أَسْفَلَ مِنْكُمْ وَلَا تَنْظُرُوا إِلَى مَنْ هُوَ فَوْقَكُمْ",
+      english: "Look at those below you (in worldly matters), not those above you.",
+      source: "Sahih Muslim 2963"
+    },
+    {
+      color: "from-green-300 to-green-500",
+      title: "When you feel GRATEFUL",
+      arabic: "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ ۖ عَلَيْهِ تَوَكَّلْتُ",
+      english: "Allah is enough for me. There is no god but Him.",
+      source: "Quran 9:129"
+    },
+    {
+      color: "from-green-300 to-green-500",
+      title: "When you feel GRATEFUL",
+      arabic: "لَتُبْلَوُنَّ فِي أَمْوَالِكُمْ وَأَنْفُسِكُمْ",
+      english: "You will surely be tested in your possessions and yourselves.",
+      source: "Quran 3:186"
+    },
+    {
+      color: "from-green-300 to-green-500",
+      title: "When you feel GRATEFUL",
+      arabic: "الْحَمْدُ لِلَّهِ الَّذِي بِنِعْمَتِهِ تَتِمُّ الصَّالِحَاتُ",
+      english: "All praise is for Allah by whose favor all good deeds are completed.",
+      source: "ﷺ"
+    },
+    {
+      color: "from-green-300 to-green-500",
+      title: "When you feel GRATEFUL",
+      arabic: "فَاذْكُرُوا آلَاءَ اللَّهِ لَعَلَّكُمْ تُفْلِحُونَ",
+      english: "So remember the favors of Allah that you may succeed.",
+      source: "Quran 7:69"
+    },
+    {
+      color: "from-green-300 to-green-500",
+      title: "When you feel GRATEFUL",
+      arabic: "وَسَنَجْزِي الشَّاكِرِينَ",
+      english: "And Allah will reward the grateful.",
+      source: "Quran 3:145"
+    },
+    {
+      color: "from-green-300 to-green-500",
+      title: "When you feel GRATEFUL",
+      arabic: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا",
+      english: "So verily, with the hardship, there is relief.",
+      source: "Quran 94:5"
+    },
+    {
+      color: "from-green-300 to-green-500",
+      title: "When you feel GRATEFUL",
+      arabic: "وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ",
+      english: "My success comes only from Allah.",
+      source: "Quran 11:88"
+    }
+  ],
+  angry: [
+    {
+      color: "from-red-300 to-red-500",
+      title: "When you feel ANGRY",
+      arabic: "لَيْسَ الشَّدِيدُ بِالصُّرَعَةِ، إِنَّمَا الشَّدِيدُ الَّذِي يَمْلِكُ نَفْسَهُ عِنْدَ الْغَضَبِ",
+      english: "The strong is not the one who overcomes people, but the one who controls himself when angry.",
+      source: "Sahih Bukhari 6114"
+    },
+    {
+      color: "from-red-300 to-red-500",
+      title: "When you feel ANGRY",
+      arabic: "إِذَا غَضِبَ أَحَدُكُمْ فَلْيَسْكُتْ",
+      english: "When one of you becomes angry, let him remain silent.",
+      source: "Musnad Ahmad 2137"
+    },
+    {
+      color: "from-red-300 to-red-500",
+      title: "When you feel ANGRY",
+      arabic: "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+      english: "I seek refuge in Allah from the accursed Satan.",
+      source: "Sahih Bukhari 3282"
+    },
+    {
+      color: "from-red-300 to-red-500",
+      title: "When you feel ANGRY",
+      arabic: "إِنَّ الْغَضَبَ مِنَ الشَّيْطَانِ، فَإِذَا غَضِبَ أَحَدُكُمْ فَلْيَتَوَضَّأْ",
+      english: "Anger is from Satan. When angry, perform wudu.",
+      source: "Sunan Abu Dawud 4784"
+    },
+    {
+      color: "from-red-300 to-red-500",
+      title: "When you feel ANGRY",
+      arabic: "وَالْكَاظِمِينَ الْغَيْظَ وَالْعَافِينَ عَنِ النَّاسِ",
+      english: "Those who suppress anger and pardon people.",
+      source: "Quran 3:134"
+    },
+    {
+      color: "from-red-300 to-red-500",
+      title: "When you feel ANGRY",
+      arabic: "إِذَا غَضِبَ أَحَدُكُمْ وَهُوَ قَائِمٌ فَلْيَجْلِسْ، فَإِنْ ذَهَبَ عَنْهُ الْغَضَبُ وَإِلَّا فَلْيَضْطَجِعْ",
+      english: "If angry while standing, sit down. If it persists, lie down.",
+      source: "Sunan Abu Dawud 4782"
+    },
+    {
+      color: "from-red-300 to-red-500",
+      title: "When you feel ANGRY",
+      arabic: "وَلَا تَسْتَوِي الْحَسَنَةُ وَلَا السَّيِّئَةُ ادْفَعْ بِالَّتِي هِيَ أَحْسَنُ",
+      english: "Good and evil are not equal. Repel evil with what is better.",
+      source: "Quran 41:34"
+    },
+    {
+      color: "from-red-300 to-red-500",
+      title: "When you feel ANGRY",
+      arabic: "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ",
+      english: "Whoever believes in Allah and the Last Day should speak good or remain silent.",
+      source: "Sahih Bukhari 6475"
+    },
+    {
+      color: "from-red-300 to-red-500",
+      title: "When you feel ANGRY",
+      arabic: "لَا يَحِلُّ لِمُسْلِمٍ أَنْ يُرَعِّبَ مُسْلِمًا",
+      english: "It is unlawful for a Muslim to frighten another Muslim.",
+      source: "Sunan Abu Dawud 5004"
+    },
+    {
+      color: "from-red-300 to-red-500",
+      title: "When you feel ANGRY",
+      arabic: "إِنَّ اللَّهَ مَعَ الَّذِينَ اتَّقَوْا وَالَّذِينَ هُمْ مُحْسِنُونَ",
+      english: "Indeed, Allah is with those who fear Him and do good.",
+      source: "Quran 16:128"
+    }
+  ],
+  lonely: [
+    {
+      color: "from-purple-400 to-purple-600",
+      title: "When you feel LONELY",
+      arabic: "ووجدك ضالاً فهداك",
+      english: "And He found you lost and guided you.",
+      source: "Quran 93:7"
+    },
+    {
+      color: "from-purple-400 to-purple-600",
+      title: "When you feel LONELY",
+      arabic: "إِنَّ اللَّهَ مَعَنَا",
+      english: "Indeed, Allah is with us.",
+      source: "Quran 9:40"
+    },
+    {
+      color: "from-purple-400 to-purple-600",
+      title: "When you feel LONELY",
+      arabic: "وَاصْبِرْ وَمَا صَبْرُكَ إِلَّا بِاللَّهِ",
+      english: "Be patient, and your patience is not but through Allah.",
+      source: "Quran 16:127"
+    },
+    {
+      color: "from-purple-400 to-purple-600",
+      title: "When you feel LONELY",
+      arabic: "الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُمْ بِذِكْرِ اللَّهِ",
+      english: "They are those who believe and whose hearts find rest in the remembrance of Allah.",
+      source: "Quran 13:28"
+    },
+    {
+      color: "from-purple-400 to-purple-600",
+      title: "When you feel LONELY",
+      arabic: "حَسْبِيَ اللَّهُ وَنِعْمَ الْوَكِيلُ",
+      english: "Allah is enough for me, and He is the best disposer of affairs.",
+      source: "Quran 3:173"
+    },
+    {
+      color: "from-purple-400 to-purple-600",
+      title: "When you feel LONELY",
+      arabic: "وَهُوَ مَعَكُمْ أَيْنَ مَا كُنْتُمْ",
+      english: "He is with you wherever you are.",
+      source: "Quran 57:4"
+    },
+    {
+      color: "from-purple-400 to-purple-600",
+      title: "When you feel LONELY",
+      arabic: "وَاعْلَمُوا أَنَّ اللَّهَ يَعْلَمُ مَا فِي أَنفُسِكُمْ",
+      english: "And know that Allah knows what is in your hearts.",
+      source: "Quran 2:235"
+    },
+    {
+      color: "from-purple-400 to-purple-600",
+      title: "When you feel LONELY",
+      arabic: "مَا ودَّعَكَ رَبُّكَ وَمَا قَلَىٰ",
+      english: "Your Lord has not abandoned you, nor does He despise you.",
+      source: "Quran 93:3"
+    },
+    {
+      color: "from-purple-400 to-purple-600",
+      title: "When you feel LONELY",
+      arabic: "وَنَحْنُ أَقْرَبُ إِلَيْهِ مِنْ حَبْلِ الْوَرِيدِ",
+      english: "We are closer to him than his jugular vein.",
+      source: "Quran 50:16"
+    },
+    {
+      color: "from-purple-400 to-purple-600",
+      title: "When you feel LONELY",
+      arabic: "لَوْلَا تَهِنُوا وَلَا تَحْزَنُوا وَأَنْتُمُ الْأَعْلَوْنَ إِنْ كُنْتُمْ مُؤْمِنِينَ",
+      english: "So do not lose hope, nor be sad, and you will surely be victorious if you are believers.",
+      source: "Quran 3:139"
+    }
+  ]
+};
+
+   let currentEmotion = '';
+    let currentQuoteIndex = 0;
+
+    function createSparkle(x, y) {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = `${x}px`;
+      sparkle.style.top = `${y}px`;
+      sparkle.style.width = `${Math.random() * 8 + 3}px`;
+      sparkle.style.height = sparkle.style.width;
+      document.body.appendChild(sparkle);
+      
+      setTimeout(() => {
+        sparkle.remove();
+      }, 1500);
+    }
+
+    function showModal(emotion, index = 0) {
+      currentEmotion = emotion;
+      currentQuoteIndex = index;
+      updateModalContent();
+      
+      const modal = document.getElementById('hadithModal');
+      modal.style.display = 'flex';
+      
+      for (let i = 0; i < 8; i++) {
+        setTimeout(() => {
+          const x = Math.random() * window.innerWidth;
+          const y = Math.random() * window.innerHeight;
+          createSparkle(x, y);
+        }, i * 100);
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('hadithModal').style.display = 'none';
+    }
+
+    function navigateQuote(direction) {
+      const quotes = hadithData[currentEmotion];
+      currentQuoteIndex += direction;
+      
+      if (currentQuoteIndex < 0) {
+        currentQuoteIndex = quotes.length - 1;
+      } else if (currentQuoteIndex >= quotes.length) {
+        currentQuoteIndex = 0;
+      }
+      
+      updateModalContent();
+    }
+
+    function updateModalContent() {
+      const quotes = hadithData[currentEmotion];
+      const data = quotes[currentQuoteIndex];
+      
+      const emotionTitle = document.getElementById('emotionTitle');
+      emotionTitle.textContent = data.title;
+      emotionTitle.className = `text-lg font-bold mb-3 text-center font-romantic title-${currentEmotion}`;
+      
+      document.getElementById('arabicText').textContent = data.arabic;
+      document.getElementById('englishText').textContent = data.english;
+      document.getElementById('hadithSource').textContent = `(${data.source})`;
+      document.getElementById('colorBar').className = `h-1 w-full rounded-full mb-4 bg-gradient-to-r ${data.color}`;
+      
+      document.getElementById('quoteCounter').textContent = `${currentQuoteIndex + 1}/${quotes.length}`;
+    }
+
+    document.getElementById('hadithModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('tiny-box')) {
+        createSparkle(e.clientX, e.clientY);
+      }
+    });
+
+    window.showModal = showModal;
+    window.closeModal = closeModal;
+    window.navigateQuote = navigateQuote;
+</script>
+</body>
+</html>
